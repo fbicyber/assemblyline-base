@@ -453,6 +453,31 @@ DEFAULT_SAML = {
 }
 
 
+DEFAULT_SAML_PROVIDERS = {}
+
+
+@odm.model(index=False, store=False, description="SAML Configuration")
+class SAML(odm.Model):
+    enabled: bool = odm.Boolean(description="Enable use of SAML?")
+    config_dir: str = odm.Keyword(description="SAML config directory")
+    auto_create: bool = odm.Boolean(description="Auto-create users if they are missing")
+    auto_sync: bool = odm.Boolean(description="Should we automatically sync with SAML server on each login?")
+    email_attribute_name: str = odm.Keyword(description="SAML attribute name for a user's email address ")
+    first_name_attribute_name: str = odm.Keyword(description="SAML attribute name for a user's first name")
+    last_name_attribute_name: str = odm.Keyword(description="SAML attribute name for a user's last name")
+
+
+DEFAULT_SAML = {
+    "enabled": True,
+    "config_dir": "assemblyline-ui/assemblyline_ui/security/saml/conf/",
+    "auto_create": True,
+    "auto_sync": True,
+    "email_attribute_name": "email",
+    "first_name_attribute_name": "firstName",
+    "last_name_attribute_name": "lastName"
+}
+
+
 @odm.model(index=False, store=False, description="Authentication Methods")
 class Auth(odm.Model):
     allow_2fa: bool = odm.Boolean(description="Allow 2FA?")
@@ -525,7 +550,7 @@ class Dispatcher(odm.Model):
 
 
 DEFAULT_DISPATCHER = {
-    "timeout": 15*60,
+    "timeout": 15 * 60,
     "max_inflight": 1000
 }
 
@@ -608,9 +633,9 @@ DEFAULT_INGESTER = {
     'incomplete_expire_after_seconds': 3600,
     'incomplete_stale_after_seconds': 1800,
     'sampling_at': {
-        'low':    10000000,
-        'medium':  2000000,
-        'high':    1000000,
+        'low': 10000000,
+        'medium': 2000000,
+        'high': 1000000,
         'critical': 500000,
     },
     'max_inflight': 500
